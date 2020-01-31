@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const CreateExercise = () => {
 
+
     const [username, setUsername] = useState('');
     const [description, setDescription] = useState('');
     const [duration, setDuration] = useState(0);
     const [date, setDate] = useState(new Date());
-    const [users, setUsers] = useState(['bayuw', 'akubaru', 'rijuki']);
+    const [users, setUsers] = useState([]);
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -35,6 +37,9 @@ const CreateExercise = () => {
             date: date
         }
         console.log(exercise);
+        axios.post('http://localhost:5000/exercises/add', exercise)
+            .then(res => console.log(res.data));
+        window.location = '/';
     }
 
     return (
@@ -48,9 +53,12 @@ const CreateExercise = () => {
                         value={username} onChange={onChangeUsername}
                         required>
                         <option>Open this select menu</option>
+
                         {users.map(user => (
                             <option value={user} key={user}>{user}</option>
                         ))}
+
+
                     </select>
                 </div>
 
