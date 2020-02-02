@@ -1,31 +1,40 @@
-import React, { useState } from "react";
-import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateExercise = () => {
-
-
-    const [username, setUsername] = useState('');
-    const [description, setDescription] = useState('');
+    const [username, setUsername] = useState("");
+    const [description, setDescription] = useState("");
     const [duration, setDuration] = useState(0);
     const [date, setDate] = useState(new Date());
     const [users, setUsers] = useState([]);
+    let usernameArray = [];
 
-    const onChangeUsername = (e) => {
-        setUsername(e.target.value)
+    useEffect(() => {
+        const getData = async () => {
+            const response = await fetch('http://localhost:5000/users');
+            const data = await response.json();
+            data.map(user => usernameArray.push(user.username));
+            setUsers(usernameArray)
+        }
+        getData()
+    }, [])
+
+    const onChangeUsername = e => {
+        setUsername(e.target.value);
     };
 
-    const onChangeDescription = (e) => {
-        setDescription(e.target.value)
+    const onChangeDescription = e => {
+        setDescription(e.target.value);
     };
 
-    const onChangeDuration = (e) => {
-        setDuration(e.target.value)
+    const onChangeDuration = e => {
+        setDuration(e.target.value);
     };
 
-    const onChangeDate = (date) => {
-        setDate(date)
+    const onChangeDate = date => {
+        setDate(date);
     };
 
     const onSubmit = e => {
@@ -35,12 +44,13 @@ const CreateExercise = () => {
             description: description,
             duration: duration,
             date: date
-        }
+        };
         console.log(exercise);
-        axios.post('http://localhost:5000/exercises/add', exercise)
+        axios
+            .post("http://localhost:5000/exercises/add", exercise)
             .then(res => console.log(res.data));
-        window.location = '/';
-    }
+        window.location = "/";
+    };
 
     return (
         <div>
@@ -52,12 +62,10 @@ const CreateExercise = () => {
                         className='custom-select'
                         value={username} onChange={onChangeUsername}
                         required>
-                        <option>Open this select menu</option>
-
+                        <option>Select user</option>
                         {users.map(user => (
                             <option value={user} key={user}>{user}</option>
                         ))}
-
 
                     </select>
                 </div>
@@ -102,9 +110,8 @@ const CreateExercise = () => {
                 </div>
             </form>
         </div>
+
     );
-
-
-}
+};
 
 export default CreateExercise;

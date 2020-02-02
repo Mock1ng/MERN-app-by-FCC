@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,7 +11,17 @@ import CreateUser from './components/create-user.component';
 // Dummy
 import Example from './dummy/hooks';
 
+
+
 function App() {
+  useEffect(() => {
+    const getApi = async () => {
+      const response = await fetch('http://localhost:5000/exercises');
+      const data = await response.json();
+      console.log(data);
+    }
+    getApi();
+  }, []);
   return (
     <Router>
       <Navbar />
