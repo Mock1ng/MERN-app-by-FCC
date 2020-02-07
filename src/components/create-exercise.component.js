@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { UsersContext } from './contexts/usersContext';
 
 const CreateExercise = () => {
-    const [username, setUsername] = useState("");
+
+    const [users, setUsers] = useContext(UsersContext);
+    const [username, setUsername] = useState('');
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState(0);
     const [date, setDate] = useState(new Date());
-    const [users, setUsers] = useState([]);
     let usernameArray = [];
 
+
     useEffect(() => {
-        const getData = async () => {
-            const response = await fetch('http://localhost:5000/users');
-            const data = await response.json();
-            data.map(user => usernameArray.push(user.username));
-            setUsers(usernameArray)
-        }
-        getData()
+        // const getData = async () => {
+        //     const response = await fetch('http://localhost:5000/users');
+        //     const data = await response.json();
+        //     data.map(user => usernameArray.push(user.username));
+        //     setUsers(usernameArray);
+        // }
+        // getData()
     }, [])
 
     const onChangeUsername = e => {
@@ -45,7 +48,6 @@ const CreateExercise = () => {
             duration: duration,
             date: date
         };
-        console.log(exercise);
         axios
             .post("http://localhost:5000/exercises/add", exercise)
             .then(res => console.log(res.data));

@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Exercise from './exercise.component';
+import { ExercisesContext } from './contexts/exercisesContext';
+import { UsersContext } from './contexts/usersContext';
 
 const ExercisesList = () => {
-    const [exercises, setExercises] = useState([]);
+    // const [exercises, setExercises] = useState([]);
+    const [exercises, setExercises] = useContext(ExercisesContext);
+    const [username, setUsername] = useContext(UsersContext);
+    console.log(username);
 
-    useEffect(() => {
-        const getApi = async () => {
-            const response = await fetch('http://localhost:5000/exercises');
-            const data = await response.json();
-            setExercises(data);
-            console.log(data);
-        };
-        getApi();
-    }, []);
     return (
         <div>
             <table className="table table-dark">
