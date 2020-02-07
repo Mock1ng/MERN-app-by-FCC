@@ -7,7 +7,6 @@ const ExercisesList = () => {
     // const [exercises, setExercises] = useState([]);
     const [exercises, setExercises] = useContext(ExercisesContext);
     const [username, setUsername] = useContext(UsersContext);
-    console.log(username);
 
     return (
         <div>
@@ -18,6 +17,7 @@ const ExercisesList = () => {
                         <th itemScope="col">Description</th>
                         <th itemScope="col">Duration</th>
                         <th itemScope="col">Date</th>
+                        <th itemScope="col">Action</th>
                     </tr>
                 </thead>
                 {exercises.map(exercise => (
@@ -27,6 +27,7 @@ const ExercisesList = () => {
                         duration={exercise.duration}
                         date={exercise.date}
                         key={exercise._id}
+                        id={exercise._id}
                     />
                 ))}
             </table>
